@@ -29,11 +29,12 @@
 void* streamdeck::handlers::obs_frontend::frontend_library;
 
 bool (*streamdeck::handlers::obs_frontend::obs_frontend_recording_add_chapter)(const char*);
+void (*streamdeck::handlers::obs_frontend::obs_frontend_tbar)(int);
 
 
 // Converts a sync function into an async function
 static std::function<void(std::weak_ptr<void>, std::shared_ptr<streamdeck::jsonrpc::request>)> make_async(
-	obs_task_type task_type,
+	obs_task_type task_type [[maybe_unused]],
 	std::function<void(std::shared_ptr<streamdeck::jsonrpc::request>, std::shared_ptr<streamdeck::jsonrpc::response>)>
 		callback)
 {
@@ -101,7 +102,7 @@ streamdeck::handlers::obs_frontend::obs_frontend()
 {
 	// Load future components
 	if (!frontend_library) {
-		frontend_library = os_dlopen("obs-frontend-api");	
+		frontend_library = os_dlopen("obs-frontend-api");
 	}
 	if (!frontend_library) {
 		// MacOS currently appends .so when searching for dynamic libraries, when the frontend is actually a .dylib
@@ -111,6 +112,7 @@ streamdeck::handlers::obs_frontend::obs_frontend()
 	if (frontend_library) {
 		obs_frontend_recording_add_chapter =
 			(bool (*)(const char*))os_dlsym(frontend_library, "obs_frontend_recording_add_chapter");
+		obs_frontend_tbar = (void (*)(int))os_dlsym(frontend_library, "obs_frontend_set_tbar_position");
 	}
 
 	cpu_info = os_cpu_usage_info_start();
@@ -314,7 +316,7 @@ void streamdeck::handlers::obs_frontend::handle(enum obs_frontend_event event)
 			method = "obs.frontend.event.virtualcam";
 			break;
 
-			
+
 		#if OBS_MINIMUM_SUPPORT >= 280000
 		case OBS_FRONTEND_EVENT_PROFILE_RENAMED:
 			method         = "obs.frontend.event.profile.renamed";
@@ -467,6 +469,8 @@ void streamdeck::handlers::obs_frontend::handle(enum obs_frontend_event event)
 			method = "obs.frontend.event.tbar";
 			reply["position"] = obs_frontend_get_tbar_position();
 			break;
+		default:
+			break;
 		}
 
 		switch (event) {
@@ -517,7 +521,8 @@ void streamdeck::handlers::obs_frontend::handle(enum obs_frontend_event event)
 		case OBS_FRONTEND_EVENT_VIRTUALCAM_STOPPED:
 			reply["state"] = "STOPPED";
 			break;
-
+		default:
+			break;
 		}
 
 		streamdeck::server::instance()->notify(method, reply);
@@ -773,7 +778,7 @@ void streamdeck::handlers::obs_frontend::studiomode(std::weak_ptr<void>         
 	/** obs.frontend.studiomode
 	 *
 	 * @param {bool} enabled [Optional] `true` to enable studio mode, or `false` to disable it.
-	 * 
+	 *
 	 * @return {bool} `true` if Studio Mode is enabled, otherwise `false`.
 	 */
 
@@ -863,7 +868,7 @@ void streamdeck::handlers::obs_frontend::virtualcam(std::weak_ptr<void>         
 	/** obs.frontend.virtualcam
 	 *
 	 * @param {bool} enabled [Optional] `true` to start the virtual cam, or `false` to disable it.
-	 * 
+	 *
 	 * @return {bool} `true` if the virtual cam is enabled, otherwise `false`.
 	 */
 
@@ -1306,8 +1311,8 @@ void streamdeck::handlers::obs_frontend::transition(std::weak_ptr<void>         
 {
 	/** obs.frontend.transition
 	 *
-	 * @param transition {string} [Optional] 
-	 * @param duration {int} [Optional] 
+	 * @param transition {string} [Optional]
+	 * @param duration {int} [Optional]
 	 * @return {{transition: string, duration: int}} The unique name of the current transition and the duration.
 	 */
 
@@ -1496,7 +1501,7 @@ void streamdeck::handlers::obs_frontend::screenshot(std::shared_ptr<streamdeck::
 }
 
 
-void streamdeck::handlers::obs_frontend::stats(std::shared_ptr<streamdeck::jsonrpc::request>  req,
+void streamdeck::handlers::obs_frontend::stats(std::shared_ptr<streamdeck::jsonrpc::request>  req [[maybe_unused]],
 													std::shared_ptr<streamdeck::jsonrpc::response> res)
 {
 	/** obs.frontend.stats
@@ -1531,7 +1536,7 @@ void streamdeck::handlers::obs_frontend::stats(std::shared_ptr<streamdeck::jsonr
 	result["framesSkipped"] = video_output_get_skipped_frames(video);
 	result["framesTotal"] = obs_get_total_frames();
 	result["framesLagged"] = obs_get_lagged_frames();
-	
+
 
 	if (stream) {
 		result["stream"]["id"]           = obs_output_get_id(stream);
@@ -1565,7 +1570,7 @@ void streamdeck::handlers::obs_frontend::stats(std::shared_ptr<streamdeck::jsonr
 	// Disk space available					.recording.freeSpace (bytes)
 	// Disk full in							Calculate with .recording.freeSpace * 8 / recording bitrate, use average bitrate over 10+ seconds
 	// Memory Usage							.memRSS (bytes)
-	// FPS									.fpsTarget 
+	// FPS									.fpsTarget
 	// Average time to render frame			.frameTimeNS (integer nanoseconds)
 	// Frames missed due to rendering lag	.framesSkipped / .framesEncoded
 	// Skipped frames due to encoding lag	.framesLagged / .framesTotal
@@ -1587,8 +1592,8 @@ void streamdeck::handlers::obs_frontend::tbar(std::weak_ptr<void>               
 {
 	/** obs.frontend.tbar
 	 *
-	 * @param position {int} [Optional] 
-	 * @param offset {int} [Optional] 
+	 * @param position {int} [Optional]
+	 * @param offset {int} [Optional]
 	 * @param release {bool} [Optional]
 	 * @return {int} The current tbar position
 	 */
@@ -1603,6 +1608,9 @@ void streamdeck::handlers::obs_frontend::tbar(std::weak_ptr<void>               
 			auto res = std::make_shared<streamdeck::jsonrpc::response>();
 			res->copy_id(*req);
 
+			if (!obs_frontend_preview_program_mode_active()) {
+				throw jsonrpc::invalid_request_error("Cannot control tbar when OBS is not in studio mode");
+			}
 			auto tbar_pos = obs_frontend_get_tbar_position();
 			auto res_obj          = nlohmann::json::object();
 			res_obj       = tbar_pos;
@@ -1642,7 +1650,7 @@ void streamdeck::handlers::obs_frontend::tbar(std::weak_ptr<void>               
 			}
 
 			if (!position.is_null() && !offset.is_null()) {
-				throw jsonrpc::invalid_params_error("The parameters 'offset' and 'position' are mutually exclusive. Please provide only one.");	
+				throw jsonrpc::invalid_params_error("The parameters 'offset' and 'position' are mutually exclusive. Please provide only one.");
 			}
 
 			if (position.is_number_integer()) {
@@ -1691,7 +1699,7 @@ void streamdeck::handlers::obs_frontend::recording_add_chapter(std::weak_ptr<voi
 	/** obs.frontend.recording.addchapter
 	 *
 	 * @param name {string} [Optional]
-	 * 
+	 *
 	 * @return {bool} Whether or not the request succeeded
 	 */
 
@@ -1744,7 +1752,7 @@ void streamdeck::handlers::obs_frontend::get_output(std::weak_ptr<void>         
 															  std::shared_ptr<streamdeck::jsonrpc::request> req)
 {
 	/** obs.frontend.output.get
-	 * 
+	 *
 	 * @return {object} A description of the current output info
 	 */
 

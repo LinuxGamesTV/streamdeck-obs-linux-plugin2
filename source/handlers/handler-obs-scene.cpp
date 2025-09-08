@@ -39,7 +39,7 @@ static nlohmann::json build_sceneitem_transform(obs_sceneitem_t* item)
 {
 	obs_transform_info ti;
 	nlohmann::json     o = nlohmann::json::object();
-	obs_sceneitem_get_info(item, &ti);
+	obs_sceneitem_get_info2(item, &ti);
 	{
 		auto p = nlohmann::json::array();
 		p.push_back(ti.pos.x);
@@ -228,7 +228,7 @@ streamdeck::handlers::obs_scene::obs_scene()
 void streamdeck::handlers::obs_scene::on_source_create(void* ptr, calldata_t* calldata)
 {
 	obs_source_t* source;
-	obs_scene*    self = static_cast<obs_scene*>(ptr);
+	//obs_scene*    self = static_cast<obs_scene*>(ptr);
 
 	// 1. Validate that we are actually inside of a proper event.
 	if (!calldata_get_ptr(calldata, "source", &source)) {
@@ -247,7 +247,7 @@ void streamdeck::handlers::obs_scene::on_source_create(void* ptr, calldata_t* ca
 void streamdeck::handlers::obs_scene::on_destroy(void* ptr, calldata_t* calldata)
 {
 	obs_source_t* source;
-	obs_scene*    self = static_cast<obs_scene*>(ptr);
+	//obs_scene*    self = static_cast<obs_scene*>(ptr);
 
 	// 1. Validate that we are actually inside of a proper event.
 	if (!calldata_get_ptr(calldata, "source", &source)) {
@@ -258,11 +258,11 @@ void streamdeck::handlers::obs_scene::on_destroy(void* ptr, calldata_t* calldata
 	silence_scene_signals(source, ptr);
 }
 
-void streamdeck::handlers::obs_scene::on_item_add(void* ptr, calldata_t* calldata)
+void streamdeck::handlers::obs_scene::on_item_add(void* ptr [[maybe_unused]], calldata_t* calldata)
 {
 	obs_scene_t*     scene;
 	obs_sceneitem_t* item;
-	obs_scene*       self = static_cast<obs_scene*>(ptr);
+	//obs_scene*       self = static_cast<obs_scene*>(ptr);
 
 	// 1. Validate that we are actually inside of a proper event.
 	if (!calldata_get_ptr(calldata, "scene", &scene)) {
@@ -333,7 +333,7 @@ void streamdeck::handlers::obs_scene::on_reorder(void*, calldata_t* calldata)
 	streamdeck::server::instance()->notify("obs.scene.event.reorder", o);
 }
 
-void streamdeck::handlers::obs_scene::on_item_remove(void* ptr, calldata_t* calldata)
+void streamdeck::handlers::obs_scene::on_item_remove(void* ptr [[maybe_unused]], calldata_t* calldata)
 {
 	obs_scene_t*     scene;
 	obs_sceneitem_t* item;
@@ -385,11 +385,11 @@ void streamdeck::handlers::obs_scene::on_item_visible(void*, calldata_t* calldat
 	streamdeck::server::instance()->notify("obs.scene.event.item.visible", o);
 }
 
-void streamdeck::handlers::obs_scene::on_item_transform(void* ptr, calldata_t* calldata)
+void streamdeck::handlers::obs_scene::on_item_transform(void* ptr [[maybe_unused]], calldata_t* calldata)
 {
 	obs_scene_t*     scene;
 	obs_sceneitem_t* item;
-	obs_scene*       self = static_cast<obs_scene*>(ptr);
+	//obs_scene*       self = static_cast<obs_scene*>(ptr);
 
 	// 1. Validate that we are actually inside of a proper event.
 	if (!calldata_get_ptr(calldata, "scene", &scene)) {
@@ -416,7 +416,7 @@ void streamdeck::handlers::obs_scene::items(std::shared_ptr<streamdeck::jsonrpc:
 	/** obs.scene.items
 	 *
 	 * @param {string} scene The name of the scene to enumerate items for.
-	 * 
+	 *
 	 * @return {Array(string)} An array of strings of all available items in the scene.
 	 */
 
@@ -471,7 +471,7 @@ void streamdeck::handlers::obs_scene::item_visible(std::shared_ptr<streamdeck::j
 	 *
 	 * @param {array} item The reference to the item in question, as an Array(String, String, Number).
 	 * @param {bool} visible [Optional] `true` to set the item to be visible, `false` to make it invisible.
-	 * 
+	 *
 	 * @return {bool} `true` if visible, otherwise `false`.
 	 */
 

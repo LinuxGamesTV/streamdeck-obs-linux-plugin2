@@ -237,10 +237,10 @@ nlohmann::json streamdeck::server::handle_call(websocketpp::connection_hdl handl
 	} catch (nlohmann::json::parse_error const& ex) {
 		res->copy_id(*req);
 		res = std::make_shared<streamdeck::jsonrpc::response>();
-		res->set_error(streamdeck::jsonrpc::error_codes::INVALID_REQUEST, ex.what() ? ex.what() : "Unknown error.");
+		res->set_error(streamdeck::jsonrpc::error_codes::INVALID_REQUEST, ex.what());
 	} catch (std::exception const& ex) {
 		res->copy_id(*req);
-		res->set_error(streamdeck::jsonrpc::error_codes::INTERNAL_ERROR, ex.what() ? ex.what() : "Unknown error.");
+		res->set_error(streamdeck::jsonrpc::error_codes::INTERNAL_ERROR, ex.what() != nullptr ? ex.what() : "Unknown error.");
 	}
 	try {
 		res->validate();
@@ -249,7 +249,7 @@ nlohmann::json streamdeck::server::handle_call(websocketpp::connection_hdl handl
 		res->set_error(streamdeck::jsonrpc::error_codes::INTERNAL_ERROR, ex.what() ? ex.what() : "Unknown error.");
 	} catch (nlohmann::json::parse_error const& ex) {
 		res->copy_id(*req);
-		res->set_error(streamdeck::jsonrpc::error_codes::INTERNAL_ERROR, ex.what() ? ex.what() : "Unknown error.");
+		res->set_error(streamdeck::jsonrpc::error_codes::INTERNAL_ERROR, ex.what());
 	}
 	return res->compile();
 }
@@ -319,7 +319,7 @@ void streamdeck::server::ws_on_message(websocketpp::connection_hdl handle, ws_se
 		if (input.is_array()) {
 			// Group Call
 			nlohmann::json responses = nlohmann::json::array();
-			for (auto idx = 0; idx < input.size(); idx++) {
+			for (size_t idx = 0; idx < input.size(); idx++) {
 				nlohmann::json entry = input.at(idx);
 				auto           obj   = handle_call(handle, entry);
 				if (obj.is_object()) {
@@ -336,6 +336,7 @@ void streamdeck::server::ws_on_message(websocketpp::connection_hdl handle, ws_se
 		}
 		if (output.length() > 0) {
 			std::error_code ec = con->send(output);
+			(void)ec;
 #ifdef _DEBUG
 			DLOG(LOG_DEBUG, "<%s> Query \"%s\" Reply \"%s\"", con->get_remote_endpoint().c_str(),
 				 msg->get_payload().c_str(), output.c_str());

@@ -115,6 +115,7 @@ namespace streamdeck {
 			static void*                frontend_library;
 
 			static bool (*obs_frontend_recording_add_chapter)(const char*);
+			static void (*obs_frontend_tbar)(int);
 		};
 	} // namespace handlers
 } // namespace streamdeck

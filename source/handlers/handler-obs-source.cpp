@@ -120,7 +120,7 @@ static std::map<obs_group_type, std::string> group_type_map = {
 	{OBS_GROUP_CHECKABLE, "checkable"},
 };
 static std::map<obs_icon_type, std::string> icon_type_map = {
-	{OBS_ICON_TYPE_UNKNOWN, "unknown"}, 
+	{OBS_ICON_TYPE_UNKNOWN, "unknown"},
 	{OBS_ICON_TYPE_IMAGE, "image"},
 	{OBS_ICON_TYPE_COLOR, "color"},
 	{OBS_ICON_TYPE_SLIDESHOW , "slideshow"},
@@ -902,7 +902,7 @@ void streamdeck::handlers::obs_source::on_filter_remove(void* ptr, calldata_t* c
 	silence_source_signals(filter, ptr);
 }
 
-void streamdeck::handlers::obs_source::on_filter_reorder(void* ptr, calldata_t* calldata)
+void streamdeck::handlers::obs_source::on_filter_reorder(void* ptr [[maybe_unused]], calldata_t* calldata)
 {
 	// Retrieve information.
 	obs_source_t* source;
@@ -1484,12 +1484,12 @@ void streamdeck::handlers::obs_source::properties(std::shared_ptr<streamdeck::js
 	}
 
 	// Convert properties into useful JSON objects.
-	std::shared_ptr<obs_properties_t> properties{obs_get_source_properties(obs_source_get_id(source.get())),
+	std::shared_ptr<obs_properties_t> properties{obs_source_properties(source.get()),
 												 [](obs_properties_t* v) { obs_properties_destroy(v); }};
 	res->set_result(build_properties_metadata(properties.get()));
 }
 
-void streamdeck::handlers::obs_source::icons(std::shared_ptr<streamdeck::jsonrpc::request>  req,
+void streamdeck::handlers::obs_source::icons(std::shared_ptr<streamdeck::jsonrpc::request>  req [[maybe_unused]],
 											 std::shared_ptr<streamdeck::jsonrpc::response> res)
 {
 	nlohmann::json result = nlohmann::json::object();

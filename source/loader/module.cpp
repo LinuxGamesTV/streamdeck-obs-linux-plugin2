@@ -64,20 +64,21 @@ MODULE_EXPORT bool obs_module_load(void)
 #ifdef __APPLE__
     if (version_major < 28) {
         data_path += "/StreamDeckPluginQt5";
-    } else if (version_major < 30){
+    } else if (version_major < 30) {
         data_path += "/StreamDeckPluginASIO1-12-1.plugin/Contents/MacOS/StreamDeckPluginASIO1-12-1";
-    } else {
+    } else if (version_major < 32) {
         data_path += "/StreamDeckPluginASIO1-28-0.plugin/Contents/MacOS/StreamDeckPluginASIO1-28-0";
+    } else {
+        data_path += "/StreamDeckPluginOBS32.plugin/Contents/MacOS/StreamDeckPluginOBS32";
     }
 #endif
 #ifdef _WIN32
     if (version_major < 28) {
         data_path += "/StreamDeckPluginQt5";
-    } else if (version_major < 30){
+    } else if (version_major < 32){
         data_path += "/StreamDeckPluginQt6";
     } else {
-        //data_path += "/StreamDeckPluginQt6-ASIO1-28-0";
-        data_path += "/StreamDeckPluginQt6";
+        data_path += "/StreamDeckPluginOBS32";
     }
 #endif
 	dl_handle = os_dlopen(data_path.c_str());

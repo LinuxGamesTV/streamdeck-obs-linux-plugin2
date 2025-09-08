@@ -1,23 +1,39 @@
-cmake_minimum_required(VERSION 3.16...3.21)
+cmake_minimum_required(VERSION 3.28...3.30)
 
-################################################################################
-# OBS Plugin Template
-################################################################################
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/common/bootstrap.cmake" NO_POLICY_SCOPE)
 
-# Change obs-plugintemplate to your plugin's name in a machine-readable format (e.g.:
-# obs-myawesomeplugin) and set
+set(_name StreamDeckPlugin${PROJECT_SUFFIX} )
+
+option(ENABLE_FRONTEND_API "Use obs-frontend-api for UI functionality" ON)
+option(ENABLE_QT "Use Qt functionality" OFF)
+
+include(compilerconfig)
+include(defaults)
+include(helpers)
+
 add_library(${CMAKE_PROJECT_NAME} MODULE)
 
-# Replace `Your Name Here` with the name (yours or your organization's) you want to see as the
-# author of the plugin (in the plugin's metadata itself and in the installers)
-set(PLUGIN_AUTHOR "${PROJECT_AUTHORS}")
+find_package(libobs REQUIRED)
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE OBS::libobs)
 
-# Replace `com.example.obs-plugin-template` with a unique Bundle ID for macOS releases (used both in
-# the installer and when submitting the installer for notarization)
-set(MACOS_BUNDLEID "com.elgato.ElgatoRemoteControlOBS")
+if(ENABLE_FRONTEND_API)
+  find_package(obs-frontend-api REQUIRED)
+  target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE OBS::obs-frontend-api)
+endif()
 
-# Replace `me@contoso.com` with the maintainer email address you want to put in Linux packages
-set(LINUX_MAINTAINER_EMAIL "")
+if(ENABLE_QT)
+  find_package(Qt6 COMPONENTS Widgets Core)
+  target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Qt6::Core Qt6::Widgets)
+  target_compile_options(
+    ${CMAKE_PROJECT_NAME}
+    PRIVATE $<$<C_COMPILER_ID:Clang,AppleClang>:-Wno-quoted-include-in-framework-header -Wno-comma>
+  )
+  set_target_properties(
+    ${CMAKE_PROJECT_NAME}
+    PROPERTIES AUTOMOC ON AUTOUIC ON AUTORCC ON
+  )
+endif()
+
 
 set(PROJECT_DEFINITIONS )
 list(APPEND PROJECT_DEFINITIONS
@@ -52,7 +68,7 @@ if(NOT BUILD_LOADER)
             "source/details-popup.cpp"
             "source/details-popup.hpp"
             "${PROJECT_BINARY_DIR}/generated/module.cpp"
-                        
+
     )
 
     target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
@@ -60,7 +76,7 @@ if(NOT BUILD_LOADER)
             "${PROJECT_SOURCE_DIR}/source"
             "third-party/nlohmann-json/single_include/"
             "third-party/websocketpp/"
-            "${ASIO_PATH}/asio/include"
+            "third-party/asio/asio/include"
     )
 else()
     target_sources(${CMAKE_PROJECT_NAME} PRIVATE
@@ -125,46 +141,4 @@ if(D_PLATFORM_WINDOWS) # Windows Support
     )
 endif()
 
-
-# /!\ TAKE NOTE: No need to edit things past this point /!\
-
-# --- Platform-independent build settings ---
-
-target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/src)
-
-target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE OBS::libobs)
-
-# --- End of section ---
-
-# --- Windows-specific build settings and tasks ---
-if(OS_WINDOWS)
-  configure_file(cmake/bundle/windows/installer-Windows.iss.in
-                 ${CMAKE_BINARY_DIR}/installer-Windows.generated.iss)
-
-  configure_file(cmake/bundle/windows/resource.rc.in ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.rc)
-  target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.rc)
-
-  if(MSVC)
-    target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE /W4)
-  endif()
-  # --- End of section ---
-
-  # -- macOS specific build settings and tasks --
-elseif(OS_MACOS)
-  configure_file(cmake/bundle/macos/installer-macos.pkgproj.in
-                 ${CMAKE_BINARY_DIR}/installer-macos.generated.pkgproj)
-
-  set(MACOSX_PLUGIN_GUI_IDENTIFIER "${MACOS_BUNDLEID}")
-  set(MACOSX_PLUGIN_BUNDLE_VERSION "${CMAKE_PROJECT_VERSION}")
-  set(MACOSX_PLUGIN_SHORT_VERSION_STRING "1")
-
-  target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -Wall)
-  # --- End of section ---
-
-  # --- Linux-specific build settings and tasks ---
-else()
-  target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -Wall)
-endif()
-# --- End of section ---
-
-setup_plugin_target(${CMAKE_PROJECT_NAME})
+set_target_properties_plugin(${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME ${_name})

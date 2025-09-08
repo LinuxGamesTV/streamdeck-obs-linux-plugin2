@@ -9,6 +9,8 @@
 Output
 output
 build
+build_x64
+release
 DerivedData
 *.app
 
@@ -73,7 +75,7 @@ StreamDeckPlugin.VC.db
 StreamDeckPlugin.vcxproj
 .vs/StreamDeckPlugin/v14/.suo
 ui_infodialog.h
-/release
+
 /debug
 /XCBuildData
 /StreamDeckPlugin.xcodeproj
@@ -83,3 +85,10 @@ ui_infodialog.h
 /moc_actionhelp.cpp
 /ElgatoRemoteControlforOBSNotSigned.pkg
 /StreamDeckPlugin.so
+
+.vscode
+
+cmake/.CMakeBuildNumber
+.deps
+old-builds/mac/StreamDeckPlugin.plugin
+submodules

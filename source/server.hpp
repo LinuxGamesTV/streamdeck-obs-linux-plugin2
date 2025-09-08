@@ -26,11 +26,17 @@
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4005 4244 4267)
+#else
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wnull-pointer-subtraction"
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #endif
 #include <websocketpp/config/asio_no_tls.hpp>
 #include <websocketpp/server.hpp>
 #ifdef _MSC_VER
 #pragma warning(pop)
+#else
+#pragma clang diagnostic pop
 #endif
 
 namespace streamdeck {
