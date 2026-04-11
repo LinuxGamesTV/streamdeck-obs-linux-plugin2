@@ -143,7 +143,7 @@ if(D_PLATFORM_WINDOWS) # Windows Support
     )
 endif()
 
-# This finction don't work
-### set_target_properties_plugin(${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME ${_name})
+# This function don't work:
+### set_target_properties_plugin()
 ### New function:
 set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME ${_name})
