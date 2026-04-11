@@ -81,6 +81,15 @@ MODULE_EXPORT bool obs_module_load(void)
         data_path += "/StreamDeckPluginOBS32";
     }
 #endif
+#ifdef _LINUX
+    if (version_major < 28) {
+        data_path += "/StreamDeckPluginQt5";
+    } else if (version_major < 32){
+        data_path += "/StreamDeckPluginQt6";
+    } else {
+        data_path += "/StreamDeckPluginOBS32.plugin/Contents/Linux/StreamDeckPluginOBS32";
+    }
+#endif
 	dl_handle = os_dlopen(data_path.c_str());
 	if (!dl_handle) {
         blog(LOG_INFO, "<StreamDeck Wrap> Failed Load");
