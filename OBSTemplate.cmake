@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 4.1.1)
 
 # We must remove this, because the requested path and file is not available 
-## include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/common/bootstrap.cmake" NO_POLICY_SCOPE)
+### include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/common/bootstrap.cmake" NO_POLICY_SCOPE)
 
 set(_name StreamDeckPlugin${PROJECT_SUFFIX} )
 
@@ -9,9 +9,9 @@ option(ENABLE_FRONTEND_API "Use obs-frontend-api for UI functionality" ON)
 option(ENABLE_QT "Use Qt functionality" OFF)
 
 # This part is not needed, becaus we get erros in the configuration of the Linuxbuild
-## include(compilerconfig)
-## include(defaults)
-## include(helpers)
+### include(compilerconfig)
+### include(defaults)
+### include(helpers)
 
 add_library(${CMAKE_PROJECT_NAME} MODULE)
 
