@@ -69,6 +69,37 @@
         "CMAKE_COMPILE_WARNING_AS_ERROR": true
       }
     },
+	{
+      "name": "opensuse",
+      "displayName": "opensuse",
+      "description": "Build for opensuse",
+      "inherits": ["StreamDeckPlugin"],
+      "binaryDir": "${sourceDir}/build_opensuse",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "generator": "Ninja",
+      "warnings": {"dev": true, "deprecated": true},
+      "cacheVariables": {
+      "CMAKE_MINIMUM_REQUIRED_VERSION": "4.1.1",
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_INSTALL_LIBDIR": "lib64/obs-plugins",
+        "CMAKE_INSTALL_PREFIX": "/usr"
+      }
+    },
+    {
+      "name": "opensuse-ci",
+      "inherits": ["opensuse"],
+      "displayName": "opensuse CI build",
+      "description": "Build for opensuse on CI",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_COMPILE_WARNING_AS_ERROR": true,
+        "ENABLE_CCACHE": true
+      }
+    },
     {
       "name": "ubuntu-x86_64",
       "displayName": "Ubuntu x86_64",
@@ -126,6 +157,20 @@
       "configurePreset": "windows-ci-x64",
       "displayName": "Windows x64 CI",
       "description": "Windows CI build for x64 (RelWithDebInfo configuration)",
+      "configuration": "RelWithDebInfo"
+    },
+	{
+      "name": "opensuse",
+      "configurePreset": "opensuse",
+      "displayName": "opensuse",
+      "description": "opensuse build for x86_64",
+      "configuration": "RelWithDebInfo"
+    },
+    {
+      "name": "opensuse-ci",
+      "configurePreset": "opensuse-ci",
+      "displayName": "opensuse CI",
+      "description": "opensuse CI build for x86_64",
       "configuration": "RelWithDebInfo"
     },
     {
