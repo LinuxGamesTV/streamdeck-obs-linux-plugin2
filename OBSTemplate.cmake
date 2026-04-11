@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 4.1.1)
 
-# We must remove this, because the requested path and file is not avable 
+# We must remove this, because the requested path and file is not available 
 ## include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/common/bootstrap.cmake" NO_POLICY_SCOPE)
 
 set(_name StreamDeckPlugin${PROJECT_SUFFIX} )
