@@ -102,6 +102,4 @@ works with all distributions:
         - now copy the libStreamDeckPlugin.so to "/usr/lib64/obs-plugins" (opensuse) 
 		or to the path where your system sore the obs plugins global. You must install it global!
         - Now start opendeck and then obs-studio, if you see the plugin in obs under tools you are done
-		
 	<img width="1449" height="663" alt="obs2" src="https://github.com/user-attachments/assets/b519e224-ebaf-443e-b537-eb5af9d2ac60" />
-       
