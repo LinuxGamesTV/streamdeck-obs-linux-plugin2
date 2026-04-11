@@ -1,15 +1,17 @@
-cmake_minimum_required(VERSION 3.28...3.30)
+cmake_minimum_required(VERSION 4.1.1)
 
-include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/common/bootstrap.cmake" NO_POLICY_SCOPE)
+# We must remove this, because the requested path and file is not avable 
+## include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/common/bootstrap.cmake" NO_POLICY_SCOPE)
 
 set(_name StreamDeckPlugin${PROJECT_SUFFIX} )
 
 option(ENABLE_FRONTEND_API "Use obs-frontend-api for UI functionality" ON)
 option(ENABLE_QT "Use Qt functionality" OFF)
 
-include(compilerconfig)
-include(defaults)
-include(helpers)
+# This part is not needed, becaus we get erros in the configuration of the Linuxbuild
+## include(compilerconfig)
+## include(defaults)
+## include(helpers)
 
 add_library(${CMAKE_PROJECT_NAME} MODULE)
 
@@ -141,4 +143,7 @@ if(D_PLATFORM_WINDOWS) # Windows Support
     )
 endif()
 
-set_target_properties_plugin(${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME ${_name})
+# This finction don't work
+### set_target_properties_plugin(${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME ${_name})
+### New function:
+set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME ${_name})
