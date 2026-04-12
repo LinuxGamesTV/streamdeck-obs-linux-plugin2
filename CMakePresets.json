@@ -145,8 +145,7 @@
       "cacheVariables": {
       "CMAKE_MINIMUM_REQUIRED_VERSION": "3.31.1",
 	  "CMAKE_BUILD_TYPE": "RelWithDebInfo",
-      "CMAKE_INSTALL_LIBDIR": "lib/obs-plugins",
-      "LIBOBS_INCLUDE_DIR": "/app/include/obs"
+      "CMAKE_INSTALL_LIBDIR": "lib/obs-plugins"
       }
     },
     {
