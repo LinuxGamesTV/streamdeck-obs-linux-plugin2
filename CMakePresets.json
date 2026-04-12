@@ -128,6 +128,35 @@
         "CMAKE_COMPILE_WARNING_AS_ERROR": true,
         "ENABLE_CCACHE": true
       }
+    },
+	{
+      "name": "flatpak",
+      "displayName": "Flatpak",
+      "description": "Build for Flatpak OBS-Studio",
+      "inherits": ["StreamDeckPlugin"],
+      "binaryDir": "${sourceDir}/build_flatpak",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "generator": "Ninja",
+      "warnings": {"dev": true, "deprecated": true},
+      "cacheVariables": {
+      "CMAKE_MINIMUM_REQUIRED_VERSION": "4.1.1",
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "flatpak-ci",
+      "inherits": ["flatpak"],
+      "displayName": "Flatpak CI build",
+      "description": "Build for Flatpak OBS-Studio on CI",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_COMPILE_WARNING_AS_ERROR": true,
+        "ENABLE_CCACHE": true
+      }
     }
   ],
   "buildPresets": [
@@ -185,6 +214,20 @@
       "configurePreset": "ubuntu-ci-x86_64",
       "displayName": "Ubuntu x86_64 CI",
       "description": "Ubuntu CI build for x86_64",
+      "configuration": "RelWithDebInfo"
+    },
+	{
+      "name": "flatpak",
+      "configurePreset": "flatpak",
+      "displayName": "flatpak",
+      "description": "Flatpak build for x86_64",
+      "configuration": "RelWithDebInfo"
+    },
+    {
+      "name": "flatpak-ci",
+      "configurePreset": "flatpak-ci",
+      "displayName": "flatpak CI",
+      "description": "Flatpak CI build for x86_64",
       "configuration": "RelWithDebInfo"
     }
   ]
