@@ -146,6 +146,7 @@
       "CMAKE_MINIMUM_REQUIRED_VERSION": "4.1.1",
 	  "CMAKE_BUILD_TYPE": "RelWithDebInfo",
 	  "CMAKE_BUILD_TYPE": "Release",
+      "CMAKE_INSTALL_LIBDIR": "lib/obs-plugins",
       "LIBOBS_INCLUDE_DIR": "/app/include/obs"
       }
     },
