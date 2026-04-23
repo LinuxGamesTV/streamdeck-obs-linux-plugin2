@@ -7,10 +7,11 @@ set(_name StreamDeckPlugin${PROJECT_SUFFIX} )
 option(ENABLE_FRONTEND_API "Use obs-frontend-api for UI functionality" ON)
 option(ENABLE_QT "Use Qt functionality" OFF)
 
-# This part is not needed, becaus we get erros in the configuration of the Linuxbuild
-### include(compilerconfig)
-### include(defaults)
-### include(helpers)
+if(NOT D_PLATFORM_LINUX)
+	include(compilerconfig)
+	include(defaults)
+	include(helpers)
+endif()
 
 add_library(${CMAKE_PROJECT_NAME} MODULE)
 
@@ -142,7 +143,8 @@ if(D_PLATFORM_WINDOWS) # Windows Support
     )
 endif()
 
-# This function don't work:
-### set_target_properties_plugin()
-### New function:
-set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME ${_name})
+if(D_PLATFORM_LINUX) 
+	set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME ${_name
+else()
+	set_target_properties_plugin(${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME ${_name})
+endif()
