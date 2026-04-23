@@ -103,6 +103,3 @@ works with all distributions:
 or to the path where your system sore the obs plugins global. the "/usr/share" part you must copy to "/usr/share" because its the locale part for the translations. You must install it global!
 4. Now start opendeck and then obs-studio, if you see the plugin in obs under tools you are done.
 
-<img width="1920" height="1080" alt="OBS-StreamdeckPlugin2" src="https://github.com/user-attachments/assets/e3bd7844-b507-473a-a7cb-b22aa539e329" />
-<img width="1920" height="1080" alt="OBS-StreamdeckPlugin1" src="https://github.com/user-attachments/assets/f0954bee-30a1-46fc-aced-f424b674b0e0" />
-
