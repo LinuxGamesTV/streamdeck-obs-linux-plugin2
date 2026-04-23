@@ -21,7 +21,6 @@ cmake_minimum_required(VERSION 3.1.1 ...  4.1.1)
 ################################################################################
 # Configure Type
 ################################################################################
-
 # Detect if we are building by ourselves or as part of something else.
 if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_LIST_DIR}")
 	set(GROUPED OFF)
