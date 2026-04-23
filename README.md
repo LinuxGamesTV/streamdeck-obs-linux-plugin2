@@ -1,6 +1,3 @@
-<img width="1920" height="1080" alt="OBS-StreamdeckPlugin2" src="https://github.com/user-attachments/assets/e3bd7844-b507-473a-a7cb-b22aa539e329" />
-<img width="1920" height="1080" alt="OBS-StreamdeckPlugin1" src="https://github.com/user-attachments/assets/f0954bee-30a1-46fc-aced-f424b674b0e0" />
-
 # Stream Deck - OBS Studio Linux Plugin 2.0
 
 This is the source code of the Stream Deck OBS Studio plugin for Windows, macOS and Linux.
@@ -105,4 +102,7 @@ works with all distributions:
 3. now copy the libStreamDeckPlugin.so to "/usr/lib64/obs-plugins" (opensuse)
 or to the path where your system sore the obs plugins global. the "/usr/share" part you must copy to "/usr/share" because its the locale part for the translations. You must install it global!
 4. Now start opendeck and then obs-studio, if you see the plugin in obs under tools you are done.
-		
+
+<img width="1920" height="1080" alt="OBS-StreamdeckPlugin2" src="https://github.com/user-attachments/assets/e3bd7844-b507-473a-a7cb-b22aa539e329" />
+<img width="1920" height="1080" alt="OBS-StreamdeckPlugin1" src="https://github.com/user-attachments/assets/f0954bee-30a1-46fc-aced-f424b674b0e0" />
+
