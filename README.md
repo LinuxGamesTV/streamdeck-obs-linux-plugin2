@@ -1,4 +1,4 @@
-# Stream Deck - OBS Studio Linux Plugin 2.0
+# Stream Deck - OBS Studio Plugin 2.0
 
 This is the source code of the Stream Deck OBS Studio plugin for Windows, macOS and Linux.
 
