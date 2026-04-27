@@ -100,7 +100,7 @@ works with all distributions:
 1. download the libStreamDeckPlugin.tar.gz and unpack it in downloads.
 2. If you want build the Plugin from source, you must go to your build folder.
 3. now copy the libStreamDeckPlugin.so to "/usr/lib64/obs-plugins" (opensuse)
-or to the path where your system sore the obs plugins global. the "/usr/share" part you must copy to "/usr/share" because its the locale part for the translations. You must install it global!
+or to the path where your system store the obs plugins global. the "/usr/share" part you must copy to "/usr/share" because its the locale part for the translations. You must install it global!
 4. Now start opendeck and then obs-studio, if you see the plugin in obs under tools you are done.
 
 <img width="1920" height="1080" alt="OBS-StreamdeckPlugin2" src="https://github.com/user-attachments/assets/e3bd7844-b507-473a-a7cb-b22aa539e329" />
