@@ -134,7 +134,7 @@
       "displayName": "flatpak",
       "description": "Build for Flatpak OBS-Studio",
       "inherits": ["StreamDeckPlugin"],
-      "binaryDir": "${sourceDir}/build_flatpak",
+      "binaryDir": "${sourceDir}/build",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
