@@ -102,7 +102,7 @@ works with all distributions:
 3. now copy the libStreamDeckPlugin.so to "/usr/lib64/obs-plugins" (opensuse)
 or to the path where your system store the obs plugins global. The "/usr/share" part you must copy to "/usr/share" because its the locale part for the translations. You must install it global!
 4. Now start opendeck and then obs-studio, if you see the plugin in obs under tools you are done.
-5. The Flatpak Version from this PlugIn you can get at Flathub or the the realese Section.
+5. The Flatpak Version from this PlugIn you can get at Flathub or the the realese Section and install with: `flatpak install com.obsproject.Studio.Plugin.StreamDeckOBSStudioLinuxPlugin`.
 
 <img width="1920" height="1080" alt="OBS-StreamdeckPlugin2" src="https://github.com/user-attachments/assets/e3bd7844-b507-473a-a7cb-b22aa539e329" />
 <img width="1920" height="1080" alt="OBS-StreamdeckPlugin1" src="https://github.com/user-attachments/assets/f0954bee-30a1-46fc-aced-f424b674b0e0" />
