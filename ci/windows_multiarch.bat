@@ -17,38 +17,37 @@ if NOT EXIST "%DISTRIB%" (
 )
 
 :: Configure Qt6
-::cmake -H.. -B"%BUILD%" ^
-::  -G"Visual Studio 16 2019" -A"%2" ^
-::  -DCMAKE_INSTALL_PREFIX="%BUILD%_install" ^
-::  -DCMAKE_PREFIX_PATH="C:\Qt\6.2.2\msvc2019_64" ^
-::  -DDOWNLOAD_QT=OFF ^
-::  -DENABLE_CLANG=OFF ^
-::  -DWITH_QT6=ON ^
-::  -DBUILD_OLD=NO ^
-::  -DBUILD_LOADER=no ^
-::  -DPROJECT_SUFFIX=Qt6
-::if %ERRORLEVEL% NEQ 0 (
-::	PAUSE
-::)
+cmake -H.. -B"%BUILD%" ^
+  -G"Visual Studio 18 2026" -A"%2" ^
+  -DCMAKE_INSTALL_PREFIX="%BUILD%_install" ^
+  -DCMAKE_PREFIX_PATH="G:\Qt\6.11.0\msvc2026_64" ^
+  -DDOWNLOAD_QT=ON ^
+  -DENABLE_CLANG=OFF ^
+  -DWITH_QT6=ON ^
+  -DBUILD_OLD=YES ^
+  -DBUILD_LOADER=yes ^
+  -DPROJECT_SUFFIX=Qt6
+if %ERRORLEVEL% NEQ 0 (
+	PAUSE
+)
 
 :: Compile Qt6
-::cmake --build "%BUILD%" --config RelWithDebInfo --target INSTALL
-::if %ERRORLEVEL% NEQ 0 (
-::	PAUSE
-::)
+cmake --build "%BUILD%" --config RelWithDebInfo --target INSTALL
+if %ERRORLEVEL% NEQ 0 (
+	PAUSE
+)
 
-pwsh ..\obs-scripts\scripts\Build-Windows.ps1 RelWithDebInfo x64 "Visual Studio 16 2019"
-
+pwsh ..\obs-scripts\scripts\Build-Windows.ps1 RelWithDebInfo x64 "Visual Studio 18 2026"
 
 :: Configure Qt5
 cmake -H.. -B"%BUILD%" ^
-  -G"Visual Studio 16 2019" -A"%2" ^
+  -G"Visual Studio 18 2026" -A"%2" ^
   -DCMAKE_INSTALL_PREFIX="%BUILD%_install" ^
   -DDOWNLOAD_QT=ON ^
-  -DWITH_QT6=OFF ^
+  -DWITH_QT6=ON ^
   -DBUILD_OLD=YES ^
   -DENABLE_CLANG=OFF ^
-  -DBUILD_LOADER=no ^
+  -DBUILD_LOADER=yes ^
   -DPROJECT_SUFFIX=Qt5 ^
   -DASIO_PATH=third-party/asio
 if %ERRORLEVEL% NEQ 0 (
@@ -59,15 +58,36 @@ if %ERRORLEVEL% NEQ 0 (
 cmake --build "%BUILD%" --config RelWithDebInfo --target INSTALL
 if %ERRORLEVEL% NEQ 0 (
 	PAUSE
-) 
+)
+
+:: Configure OBS32
+cmake -H.. -B"%BUILD%" ^
+  -G"Visual Studio 18 2026" -A"%2" ^
+  -DCMAKE_INSTALL_PREFIX="%BUILD%_install" ^
+  -DCMAKE_PREFIX_PATH="G:\Qt\6.11.0\msvc2026_64" ^
+  -DDOWNLOAD_QT=ON ^
+  -DWITH_QT6=OFF ^
+  -DBUILD_OLD=YES ^
+  -DENABLE_CLANG=OFF ^
+  -DBUILD_LOADER=yes ^
+  -DPROJECT_SUFFIX=OBS32 ^
+if %ERRORLEVEL% NEQ 0 (
+	PAUSE
+)
+
+:: Compile OBS32
+cmake --build "%BUILD%" --config RelWithDebInfo --target INSTALL
+if %ERRORLEVEL% NEQ 0 (
+	PAUSE
+)
 
 :: Configure Loader
 cmake -H.. -B"%BUILD%" ^
-  -G"Visual Studio 16 2019" -A"%2" ^
+  -G"Visual Studio 18 2026" -A"%2" ^
   -DCMAKE_INSTALL_PREFIX="%BUILD%_install" ^
-  -DCMAKE_PREFIX_PATH="C:\Qt\6.2.2\msvc2019_64" ^
-  -DDOWNLOAD_QT=OFF ^
-  -DWITH_QT6=OFF ^
+  -DCMAKE_PREFIX_PATH="G:\Qt\6.11.0\msvc2026_64" ^
+  -DDOWNLOAD_QT=ON ^
+  -DWITH_QT6=ON ^
   -DBUILD_OLD=YES ^
   -DBUILD_LOADER=yes ^
   -DPROJECT_SUFFIX=
