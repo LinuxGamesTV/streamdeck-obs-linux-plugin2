@@ -27,7 +27,7 @@ This is the source code of the Stream Deck OBS Studio plugin for Windows, macOS 
         5. Click `Open Project` which opens up Visual Studio with the current project.
         6. Build the project with Visual Studio.
         7. If you change any files, just rebuild with Visual Studio.
-4. or go in the cloned dir:"streamdeck-obs-linux-plugin2\ci" and execute windows_x86-64.bat
+4. or go in the cloned dir: "streamdeck-obs-linux-plugin2\ci" and execute windows_x86-64.bat
  
 ## Linux
 1. Install any necessary prerequisites:
