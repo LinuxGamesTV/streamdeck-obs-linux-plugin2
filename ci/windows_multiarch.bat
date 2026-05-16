@@ -20,12 +20,11 @@ if NOT EXIST "%DISTRIB%" (
 cmake -H.. -B"%BUILD%" ^
   -G"Visual Studio 18 2026" -A"%2" ^
   -DCMAKE_INSTALL_PREFIX="%BUILD%_install" ^
-  -DCMAKE_PREFIX_PATH="G:\Qt\6.11.0\msvc2026_64" ^
   -DDOWNLOAD_QT=ON ^
   -DENABLE_CLANG=OFF ^
   -DWITH_QT6=ON ^
   -DBUILD_OLD=YES ^
-  -DBUILD_LOADER=yes ^
+  -DBUILD_LOADER=YES ^
   -DPROJECT_SUFFIX=Qt6
 if %ERRORLEVEL% NEQ 0 (
 	PAUSE
@@ -47,7 +46,7 @@ cmake -H.. -B"%BUILD%" ^
   -DWITH_QT6=ON ^
   -DBUILD_OLD=YES ^
   -DENABLE_CLANG=OFF ^
-  -DBUILD_LOADER=yes ^
+  -DBUILD_LOADER=YES ^
   -DPROJECT_SUFFIX=Qt5 ^
   -DASIO_PATH=third-party/asio
 if %ERRORLEVEL% NEQ 0 (
@@ -61,35 +60,33 @@ if %ERRORLEVEL% NEQ 0 (
 )
 
 :: Configure OBS32
-cmake -H.. -B"%BUILD%" ^
-  -G"Visual Studio 18 2026" -A"%2" ^
-  -DCMAKE_INSTALL_PREFIX="%BUILD%_install" ^
-  -DCMAKE_PREFIX_PATH="G:\Qt\6.11.0\msvc2026_64" ^
-  -DDOWNLOAD_QT=ON ^
-  -DWITH_QT6=OFF ^
-  -DBUILD_OLD=YES ^
-  -DENABLE_CLANG=OFF ^
-  -DBUILD_LOADER=yes ^
-  -DPROJECT_SUFFIX=OBS32 ^
-if %ERRORLEVEL% NEQ 0 (
-	PAUSE
-)
+:: cmake -H.. -B"%BUILD%" ^
+::   -G"Visual Studio 18 2026" -A"%2" ^
+::   -DCMAKE_INSTALL_PREFIX="%BUILD%_install" ^
+::   -DDOWNLOAD_QT=ON ^
+::   -DWITH_QT6=OFF ^
+::   -DBUILD_OLD=YES ^
+::   -DENABLE_CLANG=OFF ^
+::   -DBUILD_LOADER=YES ^
+::   -DPROJECT_SUFFIX=OBS32 ^
+:: if %ERRORLEVEL% NEQ 0 (
+:: 	PAUSE
+:: )
 
 :: Compile OBS32
-cmake --build "%BUILD%" --config RelWithDebInfo --target INSTALL
-if %ERRORLEVEL% NEQ 0 (
-	PAUSE
-)
+:: cmake --build "%BUILD%" --config RelWithDebInfo --target INSTALL
+:: if %ERRORLEVEL% NEQ 0 (
+:: 	PAUSE
+:: )
 
 :: Configure Loader
 cmake -H.. -B"%BUILD%" ^
   -G"Visual Studio 18 2026" -A"%2" ^
   -DCMAKE_INSTALL_PREFIX="%BUILD%_install" ^
-  -DCMAKE_PREFIX_PATH="G:\Qt\6.11.0\msvc2026_64" ^
   -DDOWNLOAD_QT=ON ^
   -DWITH_QT6=ON ^
   -DBUILD_OLD=YES ^
-  -DBUILD_LOADER=yes ^
+  -DBUILD_LOADER=YES ^
   -DPROJECT_SUFFIX=
 if %ERRORLEVEL% NEQ 0 (
 	PAUSE
