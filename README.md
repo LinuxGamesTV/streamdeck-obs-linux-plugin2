@@ -27,7 +27,8 @@ This is the source code of the Stream Deck OBS Studio plugin for Windows, macOS 
         5. Click `Open Project` which opens up Visual Studio with the current project.
         6. Build the project with Visual Studio.
         7. If you change any files, just rebuild with Visual Studio.
-
+4. or go in the cloned dir:"streamdeck-obs-linux-plugin2\ci" and execute windows_x86-64.bat
+ 
 ## Linux
 1. Install any necessary prerequisites:
     - Debian-based:
@@ -93,16 +94,23 @@ This is the source code of the Stream Deck OBS Studio plugin for Windows, macOS 
         5. Click `Generate` and wait.
         6. Click `Open Project` which opens up the IDE for further editing.
 
-# Install
+#  Install
 ## Linux
 works with all distributions:
 
-1. download the libStreamDeckPlugin.tar.gz and unpack it in downloads.
-2. If you want build the Plugin from source, you must go to your build folder.
-3. now copy the libStreamDeckPlugin.so to "/usr/lib64/obs-plugins" (opensuse)
-or to the path where your system store the obs plugins global. The "/usr/share" part you must copy to "/usr/share" because its the locale part for the translations. You must install it global!
-4. Now start opendeck and then obs-studio, if you see the plugin in obs under tools you are done.
-5. The Flatpak Version from this PlugIn you can get at Flathub or the the realese Section and install with: `flatpak install com.obsproject.Studio.Plugin.StreamDeckOBSStudioLinuxPlugin`.
+1. download the obs-streamdeck-linux-plugin-opensuse.tar.gz for opensuse and obs-streamdeck-linux-plugin.tar.gz for all other distributions and unpack it in downloads.
+2. Move in "obs-streamdeck-linux-plugin" and copy now the "/usr" folder to "/" as root/su/sudo. 
+3. If you want build the Plugin from source, you must go to your build folder.
+4. Now start opendeck, install the Elgato OBS-Studio 2.2.4 Plugin from the Elgato Marketplace (with this Linux fix: https://github.com/LinuxGamesTV/elgato-obsstudio-Linux-plugin ) and then start obs-studio. If you see the plugin in obs under tools you are done.
+5. Now start opendeck and then obs-studio, if you see the plugin in obs under tools you are done.
+6. The Flatpak Version from this PlugIn you can get at Flathub or the the realese Section and install with: `flatpak install com.obsproject.Studio.Plugin.StreamDeckOBSStudioLinuxPlugin`.
+
+## Windows
+works with all distributions:
+
+1. download the obs-streamdeck-win64-plugin.tar.gz and unpack it in downloads.
+2. Move in "obs-streamdeck-win64-plugin" and copy now the "plugins" folder to "C:\ProgramData\obs-studio" as Administrator.
+
 
 <img width="1920" height="1080" alt="OBS-StreamdeckPlugin2" src="https://github.com/user-attachments/assets/e3bd7844-b507-473a-a7cb-b22aa539e329" />
 <img width="1920" height="1080" alt="OBS-StreamdeckPlugin1" src="https://github.com/user-attachments/assets/f0954bee-30a1-46fc-aced-f424b674b0e0" />
