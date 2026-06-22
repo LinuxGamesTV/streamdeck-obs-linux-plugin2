@@ -101,7 +101,7 @@ works with all distributions:
 1. download the obs-streamdeck-linux-plugin-opensuse.tar.gz for opensuse and obs-streamdeck-linux-plugin.tar.gz for all other distributions and unpack it in downloads.
 2. Move in "obs-streamdeck-linux-plugin" and copy now the "/usr" folder to "/" as root/su/sudo. 
 3. If you want build the Plugin from source, you must go to your build folder.
-4. Now start opendeck, install the Elgato OBS-Studio 2.2.4 Plugin from the Elgato Marketplace (with this Linux fix: https://github.com/LinuxGamesTV/elgato-obsstudio-Linux-plugin ) and then start obs-studio. If you see the plugin in obs under tools you are done.
+4. Now start opendeck, install the Elgato OBS-Studio 2.2.4 Plugin from the Elgato Marketplace (with this Linux fix: https://github.com/LinuxGamesTV/elgato-obsstudio-Linux-plugin (no more need it) ) and then start obs-studio. If you see the plugin in obs under tools you are done.
 5. The Flatpak Version from this PlugIn you can get at Flathub or the the realese Section and install with: `flatpak install com.obsproject.Studio.Plugin.StreamDeckOBSStudioLinuxPlugin`.
 
 ## Windows
